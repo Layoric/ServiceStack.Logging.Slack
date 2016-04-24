@@ -174,24 +174,24 @@ namespace Tests
             Thread.Sleep(10);
         }
 
-        //[Ignore("Call live slack team")]
-        //[Test]
-        //public void LogToSlackTest()
-        //{
-        //    var url = new AppSettings().GetString("SlackUrl");
-        //    LogManager.LogFactory = new SlackLogFactory(url, true);
-        //    var logger = LogManager.LogFactory.GetLogger(typeof(TestAppHost));
-        //    logger.Debug("Hello slack\nThis is a message from NUint tests.");
+        [Ignore("Call live slack team")]
+        [Test]
+        public void LogToSlackTest()
+        {
+            var url = new AppSettings().GetString("SlackUrl");
+            LogManager.LogFactory = new SlackLogFactory(url, true);
+            var logger = LogManager.LogFactory.GetLogger(typeof(TestAppHost));
+            logger.Debug("Hello slack\nThis is a message from NUint tests.");
 
-        //    LogManager.LogFactory = new SlackLogFactory(url, true)
-        //    {
-        //        BotUsername = "Log'O'Bot",
-        //        IconEmoji = ":ghost:",
-        //        FatalChannel = "logs-other",
-        //    };
+            LogManager.LogFactory = new SlackLogFactory(url, true)
+            {
+                BotUsername = "Log'O'Bot",
+                IconEmoji = ":ghost:",
+                FatalChannel = "logs-other",
+            };
 
-        //    var logger2 = LogManager.LogFactory.GetLogger(typeof(TestAppHost));
-        //    logger2.Fatal("Hello slack\nThis is a message from NUint tests. 111");
-        //}
+            var logger2 = LogManager.LogFactory.GetLogger(typeof(TestAppHost));
+            logger2.Fatal("Hello slack\nThis is a message from NUint tests. 111");
+        }
     }
 }
