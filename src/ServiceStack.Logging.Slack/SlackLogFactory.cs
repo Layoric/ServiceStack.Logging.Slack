@@ -36,7 +36,7 @@ namespace ServiceStack.Logging.Slack
 
         public ILog GetLogger(string typeName)
         {
-            return new SlackLog(incomingWebHookUrl)
+            return new SlackLog(incomingWebHookUrl,IsDebugEnabled)
             {
                 DebugChannel = DebugChannel,
                 DefaultChannel = DefaultChannel,
