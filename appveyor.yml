@@ -7,5 +7,5 @@ build:
 environment:
   COVERALLS_REPO_TOKEN:
     secure: 31RnoYihglJfGgdqHCpM3RRQspgU3cxK/gmIfgcj5ySW9uQVYM/7dxvEFpBrJjLz
-test_script:
+after_test:
 - cmd: src\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"src\packages\NUnit.ConsoleRunner.3.2.1\tools\nunit3-console.exe" -targetargs:"/noshadow /domain:single src\Tests\bin\debug\Tests.dll" -output:coverage.xml
