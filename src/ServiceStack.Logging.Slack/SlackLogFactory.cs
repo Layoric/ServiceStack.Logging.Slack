@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using ServiceStack.Text;
 
 namespace ServiceStack.Logging.Slack
 {
@@ -86,7 +87,13 @@ namespace ServiceStack.Logging.Slack
 
         private void LogMessage(SlackLoggingData message)
         {
-            this.incomingWebHookUrl.PostJsonToUrlAsync(message);
+            using (JsConfig
+                .With(propertyConvention: PropertyConvention.Lenient,
+                    emitLowercaseUnderscoreNames: true,
+                    emitCamelCaseNames: false))
+            {
+                this.incomingWebHookUrl.PostJsonToUrlAsync(message);
+            }
         }
 
         private SlackLoggingData BuildMessage(string text, string channel = null)

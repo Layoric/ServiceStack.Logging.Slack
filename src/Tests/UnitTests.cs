@@ -2,6 +2,7 @@
 using System.Threading;
 using NUnit.Framework;
 using ServiceStack;
+using ServiceStack.Configuration;
 using ServiceStack.Logging;
 using ServiceStack.Logging.Slack;
 
@@ -171,6 +172,16 @@ namespace Tests
             LogManager.LogFactory.GetLogger(typeof(TestAppHost))
                 .DebugFormat("Hello {0}, {1}, {2}, {3}", "one", "two", "three", "four");
             Thread.Sleep(10);
+        }
+
+        [Ignore("Call live slack team")]
+        [Test]
+        public void LogToSlackTest()
+        {
+            var url = new AppSettings().GetString("SlackUrl");
+            LogManager.LogFactory = new SlackLogFactory(url, true);
+            var logger = LogManager.LogFactory.GetLogger(typeof(TestAppHost));
+            logger.Debug("Hello slack\nThis is a message from NUint tests.");
         }
     }
 }
