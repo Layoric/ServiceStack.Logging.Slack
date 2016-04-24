@@ -45,7 +45,8 @@ namespace ServiceStack.Logging.Slack
                 InfoChannel = InfoChannel,
                 FatalChannel = FatalChannel,
                 WarnChannel = WarnChannel,
-                ErrorChannel = ErrorChannel
+                ErrorChannel = ErrorChannel,
+                BotUsername = BotUsername
             };
         }
     }

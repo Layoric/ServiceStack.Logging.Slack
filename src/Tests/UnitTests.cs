@@ -182,6 +182,16 @@ namespace Tests
             LogManager.LogFactory = new SlackLogFactory(url, true);
             var logger = LogManager.LogFactory.GetLogger(typeof(TestAppHost));
             logger.Debug("Hello slack\nThis is a message from NUint tests.");
+
+            LogManager.LogFactory = new SlackLogFactory(url, true)
+            {
+                BotUsername = "Log'O'Bot",
+                IconEmoji = ":ghost:",
+                FatalChannel = "logs-other",
+            };
+
+            var logger2 = LogManager.LogFactory.GetLogger(typeof(TestAppHost));
+            logger2.Fatal("Hello slack\nThis is a message from NUint tests. 111");
         }
     }
 }
