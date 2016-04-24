@@ -1,0 +1,1 @@
+# ServiceStack.Logging.Slack [![Build status](https://ci.appveyor.com/api/projects/status/xq6e5rigl77c7alb/branch/master?svg=true)](https://ci.appveyor.com/project/Layoric/servicestack-logging-slack/branch/master)
