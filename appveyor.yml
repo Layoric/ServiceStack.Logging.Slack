@@ -1,5 +1,6 @@
 version: 1.0.{build}
 before_build:
-- cmd: nuget restore
+- cmd: nuget restore src/ServiceStack.Logging.Slack.sln
 build:
+  project: src/ServiceStack.Logging.Slack.sln
   verbosity: minimal
