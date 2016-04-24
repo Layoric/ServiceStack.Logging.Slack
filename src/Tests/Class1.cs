@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading;
 using NUnit.Framework;
 using ServiceStack;
 using ServiceStack.Logging;
 using ServiceStack.Logging.Slack;
-using ServiceStack.Testing;
 
 namespace Tests
 {
