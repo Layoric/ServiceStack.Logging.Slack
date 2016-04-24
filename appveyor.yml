@@ -4,3 +4,6 @@ before_build:
 build:
   project: src/ServiceStack.Logging.Slack.sln
   verbosity: minimal
+environment:
+  COVERALLS_REPO_TOKEN:
+    secure: 31RnoYihglJfGgdqHCpM3RRQspgU3cxK/gmIfgcj5ySW9uQVYM/7dxvEFpBrJjLz
