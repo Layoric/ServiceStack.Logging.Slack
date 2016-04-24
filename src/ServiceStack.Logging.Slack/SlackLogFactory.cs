@@ -141,7 +141,7 @@ namespace ServiceStack.Logging.Slack
         {
             if (!isDebugEnabled)
                 return;
-            Write(format.Fmt(args),null,DebugChannel);
+            Write(string.Format(format, args), null,DebugChannel);
         }
 
         public void Error(object message)
@@ -156,7 +156,7 @@ namespace ServiceStack.Logging.Slack
 
         public void ErrorFormat(string format, params object[] args)
         {
-            Write(format.Fmt(args),null,ErrorChannel);
+            Write(string.Format(format, args), null,ErrorChannel);
         }
 
         public void Fatal(object message)
@@ -171,7 +171,7 @@ namespace ServiceStack.Logging.Slack
 
         public void FatalFormat(string format, params object[] args)
         {
-            Write(format.Fmt(args),null, FatalChannel);
+            Write(string.Format(format,args),null, FatalChannel);
         }
 
         public void Info(object message)
@@ -186,7 +186,7 @@ namespace ServiceStack.Logging.Slack
 
         public void InfoFormat(string format, params object[] args)
         {
-            Write(format.Fmt(args),null,InfoChannel);
+            Write(string.Format(format, args), null,InfoChannel);
         }
 
         public void Warn(object message)
@@ -201,7 +201,7 @@ namespace ServiceStack.Logging.Slack
 
         public void WarnFormat(string format, params object[] args)
         {
-            Write(format.Fmt(args),null,WarnChannel);
+            Write(string.Format(format, args), null,WarnChannel);
         }
 
         public bool IsDebugEnabled

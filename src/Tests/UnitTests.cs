@@ -58,7 +58,8 @@ namespace Tests
                 ErrorChannel = "ERROR",
                 InfoChannel = "INFO",
                 WarnChannel = "WARN",
-                DebugChannel = "DEBUG"
+                DebugChannel = "DEBUG",
+                FatalChannel = "FATAL"
             };
             //ERROR
             TestAppHost.AssertCallback = message =>
@@ -67,6 +68,14 @@ namespace Tests
                 Assert.That(message.Text, Is.EqualTo("This is a test"));
             };
             LogManager.LogFactory.GetLogger(typeof(TestAppHost)).Error("This is a test");
+
+            //FATAL
+            TestAppHost.AssertCallback = message =>
+            {
+                Assert.That(message.Channel, Is.EqualTo("FATAL"));
+                Assert.That(message.Text, Is.EqualTo("This is a test"));
+            };
+            LogManager.LogFactory.GetLogger(typeof(TestAppHost)).Fatal("This is a test");
 
             //WARN
             TestAppHost.AssertCallback = message =>
@@ -100,11 +109,13 @@ namespace Tests
         {
             LogManager.LogFactory = new SlackLogFactory("http://localhost:22334/testing");
             bool assertNeverFired = true;
-            //ERROR
             TestAppHost.AssertCallback = message => assertNeverFired = false;
             LogManager.LogFactory.GetLogger(typeof(TestAppHost)).Debug("This is a test.");
-            Thread.Sleep(10);
+            LogManager.LogFactory.GetLogger(typeof(TestAppHost)).DebugFormat("This is a test. {0}", 1);
+            LogManager.LogFactory.GetLogger(typeof(TestAppHost)).Debug("This is a test.", new ArgumentException());
+            Thread.Sleep(200);
             Assert.That(assertNeverFired,Is.EqualTo(true));
+            Assert.That(LogManager.LogFactory.GetLogger(typeof(TestAppHost)).IsDebugEnabled, Is.EqualTo(false));
         }
 
         [Test]
@@ -122,13 +133,43 @@ namespace Tests
             TestAppHost.AssertCallback = message =>
             {
                 Assert.That(message.Text, Is.EqualTo(
-                    @"This is a test\nMessage: Foo is null\r\nParameter name: Foo\nSource: \nTarget site: \nStack trace: \n"));
+                    "This is a test\nMessage: Foo is null\r\nParameter name: Foo\nSource: \nTarget site: \nStack trace: \n"));
             };
             LogManager.LogFactory.GetLogger(typeof(TestAppHost)).Error("This is a test", new ArgumentNullException("Foo","Foo is null"));
             LogManager.LogFactory.GetLogger(typeof(TestAppHost)).Warn("This is a test", new ArgumentNullException("Foo", "Foo is null"));
             LogManager.LogFactory.GetLogger(typeof(TestAppHost)).Info("This is a test", new ArgumentNullException("Foo", "Foo is null"));
             LogManager.LogFactory.GetLogger(typeof(TestAppHost)).Fatal("This is a test", new ArgumentNullException("Foo", "Foo is null"));
             LogManager.LogFactory.GetLogger(typeof(TestAppHost)).Debug("This is a test", new ArgumentNullException("Foo", "Foo is null"));
+            Thread.Sleep(10);
+        }
+
+        [Test]
+        public void FormatLoggingCorrectlyLogs()
+        {
+            LogManager.LogFactory = new SlackLogFactory("http://localhost:22334/testing", true)
+            {
+                DefaultChannel = "Testing",
+                ErrorChannel = "ERROR",
+                InfoChannel = "INFO",
+                WarnChannel = "WARN",
+                DebugChannel = "DEBUG"
+            };
+            //ERROR
+            TestAppHost.AssertCallback = message =>
+            {
+                Assert.That(message.Text, Is.EqualTo(
+                    "Hello one, two, three, four"));
+            };
+            LogManager.LogFactory.GetLogger(typeof(TestAppHost))
+                .ErrorFormat("Hello {0}, {1}, {2}, {3}","one","two","three","four");
+            LogManager.LogFactory.GetLogger(typeof(TestAppHost))
+                .FatalFormat("Hello {0}, {1}, {2}, {3}", "one", "two", "three", "four");
+            LogManager.LogFactory.GetLogger(typeof(TestAppHost))
+                .WarnFormat("Hello {0}, {1}, {2}, {3}", "one", "two", "three", "four");
+            LogManager.LogFactory.GetLogger(typeof(TestAppHost))
+                .InfoFormat("Hello {0}, {1}, {2}, {3}", "one", "two", "three", "four");
+            LogManager.LogFactory.GetLogger(typeof(TestAppHost))
+                .DebugFormat("Hello {0}, {1}, {2}, {3}", "one", "two", "three", "four");
             Thread.Sleep(10);
         }
     }
