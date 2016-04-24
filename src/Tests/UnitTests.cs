@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using NUnit.Framework;
 using ServiceStack;
 using ServiceStack.Logging;
@@ -104,6 +105,31 @@ namespace Tests
             LogManager.LogFactory.GetLogger(typeof(TestAppHost)).Debug("This is a test.");
             Thread.Sleep(10);
             Assert.That(assertNeverFired,Is.EqualTo(true));
+        }
+
+        [Test]
+        public void ExceptionsAreLoggedWhenThrown()
+        {
+            LogManager.LogFactory = new SlackLogFactory("http://localhost:22334/testing", true)
+            {
+                DefaultChannel = "Testing",
+                ErrorChannel = "ERROR",
+                InfoChannel = "INFO",
+                WarnChannel = "WARN",
+                DebugChannel = "DEBUG"
+            };
+            //ERROR
+            TestAppHost.AssertCallback = message =>
+            {
+                Assert.That(message.Text, Is.EqualTo(
+                    @"This is a test\nMessage: Foo is null\r\nParameter name: Foo\nSource: \nTarget site: \nStack trace: \n"));
+            };
+            LogManager.LogFactory.GetLogger(typeof(TestAppHost)).Error("This is a test", new ArgumentNullException("Foo","Foo is null"));
+            LogManager.LogFactory.GetLogger(typeof(TestAppHost)).Warn("This is a test", new ArgumentNullException("Foo", "Foo is null"));
+            LogManager.LogFactory.GetLogger(typeof(TestAppHost)).Info("This is a test", new ArgumentNullException("Foo", "Foo is null"));
+            LogManager.LogFactory.GetLogger(typeof(TestAppHost)).Fatal("This is a test", new ArgumentNullException("Foo", "Foo is null"));
+            LogManager.LogFactory.GetLogger(typeof(TestAppHost)).Debug("This is a test", new ArgumentNullException("Foo", "Foo is null"));
+            Thread.Sleep(10);
         }
     }
 }
