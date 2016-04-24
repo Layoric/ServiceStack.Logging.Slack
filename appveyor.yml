@@ -8,4 +8,4 @@ environment:
   COVERALLS_REPO_TOKEN:
     secure: 31RnoYihglJfGgdqHCpM3RRQspgU3cxK/gmIfgcj5ySW9uQVYM/7dxvEFpBrJjLz
 test_script:
-- cmd: src\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"src\packages\NUnit.Runners.3.2.1\tools\nunit-console.exe" -targetargs:"/noshadow /domain:single src\Tests\bin\debug\Tests.dll" -output:coverage.xml
+- cmd: src\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"src\packages\NUnit.Runners.3.2.1\tools\nunit3-console.exe" -targetargs:"/noshadow /domain:single src\Tests\bin\debug\Tests.dll" -output:coverage.xml
